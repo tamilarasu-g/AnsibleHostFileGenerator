@@ -27,5 +27,5 @@ ansible_user=${username}
 ansible_password=${password}
 ansible_port=${port_no}
     
-    " >> ansible.conf
+    " >> "${ANSIBLE_HOSTS}"
 done
