@@ -16,7 +16,7 @@ NO_OF_LINES="lines.txt"
 
 #Loop through the files and do the thing
 
-paste -d@ "${USER_NAME}" "${PASSWORD}" "${PORT_NO}" "${NO_OF_LINES}" | while IFS="@" read -r username password port_no no_of_lines
+while IFS="," read -r username password port_no no_of_lines
 do
     echo -n "
 [host${no_of_lines}]
@@ -28,4 +28,4 @@ ansible_password=${password}
 ansible_port=${port_no}
     
     " >> "${ANSIBLE_HOSTS}"
-done
+done < data.csv
