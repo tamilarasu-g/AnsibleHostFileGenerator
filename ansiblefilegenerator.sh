@@ -1,31 +1,28 @@
 #!/bin/bash
 
 #File name for the usernames
-USER_NAME="username.txt"
-PASSWORD="password.txt"
-PORT_NO="port.txt"
+INPUT_FILE="data.csv"
 
 #File name of the Ansible Hosts
 ANSIBLE_HOSTS="ansible.conf"
 
-#Count the no of lines in One of the files
-LINES=$(sed -n '=' "${USER_NAME}")
-echo "${LINES}" > lines.txt
-NO_OF_LINES="lines.txt"
-
-
 #Loop through the files and do the thing
 
-while IFS="," read -r username password port_no no_of_lines
+#Set the i variable for looping
+i=1
+
+while IFS="," read -r username password port_no
 do
     echo -n "
-[host${no_of_lines}]
-host${no_of_lines}-ip
+[host${i}]
+host${i}-ip
 
-[host${no_of_lines}:vars]
+[host${i}:vars]
 ansible_user=${username}
 ansible_password=${password}
 ansible_port=${port_no}
     
     " >> "${ANSIBLE_HOSTS}"
-done < data.csv
+    #Increment the value of i during each iteration
+i=$(($i+1))
+done < "${INPUT_FILE}"
